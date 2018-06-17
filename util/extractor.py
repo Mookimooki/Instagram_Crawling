@@ -9,36 +9,38 @@ import requests
 def get_user_info(browser):
   """Get the basic user info from the profile screen"""
 
-  container = browser.find_element_by_class_name('v9tJq')
+  container = browser.find_element_by_class_name('qxft6')       #content page
   print ("ok")
-  img_container = browser.find_element_by_class_name('RR-M-')
-  infos = container.find_elements_by_class_name('Y8-fY ')                           
-  alias_name = container.find_element_by_class_name('-vDIg')\
-                        .find_element_by_tag_name('h1').text
-  try:
-    bio = container.find_element_by_class_name('-vDIg')\
-                        .find_element_by_tag_name('span').text                      
-  except:
-    print ("\nBio is empty")
-    bio = ""
-  print ("\nalias name: ", alias_name)
-  print ("\nbio: ", bio,"\n")
+  img_container = browser.find_element_by_class_name('fZC9e')   #profile image
+  infos = container.find_elements_by_class_name('g47SY ')       #number of post
+#  alias_name = container.find_element_by_class_name('-vDIg')\
+#                        .find_element_by_tag_name('h1').text
+#
+#  try:
+#    bio = container.find_element_by_class_name('-vDIg')\
+#                        .find_element_by_tag_name('span').text  #Nickname
+#  except:
+#    print ("\nBio is empty")
+#    bio = ""
+#  print ("\nalias name: ", alias_name)
+#  print ("\nbio: ", bio,"\n")
   prof_img = img_container.find_element_by_tag_name('img').get_attribute('src')
   num_of_posts = int(infos[0].text.split(' ')[0].replace(',', ''))
-  followers = str(infos[1].text.split(' ')[0].replace(',', ''))
-  if followers.find('.') != -1:
-    followers = followers.replace('.', '')
-    followers = int(followers.replace('k', '00').replace('m', '00000'))
-  else:
-    followers = int(followers.replace('k', '000').replace('m', '000000'))
-  following = str(infos[2].text.split(' ')[0].replace(',', ''))
-  if following.find('.') != -1:
-    following = following.replace('.', '')
-    following = int(following.replace('k', '00').replace('m', '00000'))
-  else:
-    following = int(following.replace('k', '000').replace('m', '000000'))
+#  followers = str(infos[1].text.split(' ')[0].replace(',', ''))
+#  if followers.find('.') != -1:
+#    followers = followers.replace('.', '')
+#    followers = int(followers.replace('k', '00').replace('m', '00000'))
+#  else:
+#    followers = int(followers.replace('k', '000').replace('m', '000000'))
+#  following = str(infos[2].text.split(' ')[0].replace(',', ''))
+#  if following.find('.') != -1:
+#    following = following.replace('.', '')
+#    following = int(following.replace('k', '00').replace('m', '00000'))
+#  else:
+#    following = int(following.replace('k', '000').replace('m', '000000'))
 
-  return alias_name, bio, prof_img, num_of_posts, followers, following
+#  return alias_name, bio, prof_img, num_of_posts, followers, following
+  return prof_img, num_of_posts
 
 
 def extract_post_info(browser):
@@ -156,7 +158,7 @@ def extract_information(browser, username, limit_amount):
   browser.get('https://www.instagram.com/' + username)
 
   try:
-    alias_name, bio, prof_img, num_of_posts, followers, following \
+    prof_img, num_of_posts \
     = get_user_info(browser)
     if limit_amount <1 :
         limit_amount = 999999
